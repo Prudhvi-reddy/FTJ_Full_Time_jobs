@@ -6,13 +6,15 @@ document.getElementById("signupForm").addEventListener("submit", async function(
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
     let retypePassword = document.getElementById("retypePassword").value;
+    let securityQuestion = document.getElementById("securityQuestion").value;
+    let securityAnswer = document.getElementById("securityAnswer").value;
 
     if (password !== retypePassword) {
         alert("Passwords do not match!");
         return;
     }
 
-    let userData = { firstName, lastName, email, password };
+    let userData = { firstName, lastName, email, password, securityQuestion, securityAnswer };
 
     try {
         let response = await fetch("http://localhost:5500/signup", {
@@ -33,4 +35,7 @@ document.getElementById("signupForm").addEventListener("submit", async function(
         alert("Signup failed");
     }
 });
+
+
+
 

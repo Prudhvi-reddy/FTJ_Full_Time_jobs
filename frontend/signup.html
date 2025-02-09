@@ -7,17 +7,23 @@
     <link rel="stylesheet">
 </head>
 <body>
-    <h2>Sign Up</h2>
     <form id="signupForm">
-        <P> Enter Following detais</P>
-        First Name:<input type="text" id="firstName" placeholder="First Name" required minlength="3"><br>
-        Last Name:<input type="text" id="lastName" placeholder="Last Name" required><br>
-        Email: <input type="email" id="email" placeholder="Email" required><br>
-        Pasword: <input type="password" id="password" placeholder="Password" required><br>
-        Retype Password:<input type="password" id="retypePassword" placeholder="Retype Password" required><br><br>
+        <input type="text" id="firstName" placeholder="First Name" required>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="password" id="retypePassword" placeholder="Retype Password" required>
+        <select id="securityQuestion" required>
+            <option value="" disabled selected>Select Security Question</option>
+            <option value="What is your pet's name?">What is your pet's name?</option>
+            <option value="What is first car color">What is your mother's maiden name?</option>
+            <option value="What is your favorite color?">What is your favorite color?</option>
+        </select>
+        <input type="text" id="securityAnswer" placeholder="Security Answer" required>
+        <button type="submit">Sign Up</button>
     </form>
-    <script src="signup.js"></script>
+</div>
 
-    <p>Already have an account? <a href="login.html">Login here</a></p>
+<script src="signup.js"></script>
 </body>
 </html>

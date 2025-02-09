@@ -19,14 +19,16 @@ const UserSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
     email: { type: String, unique: true },
-    password: String
+    password: String,
+    securityQuestion: String,
+    securityAnswer: String
 });
 
 const User = mongoose.model("User", UserSchema);
 
 // Signup Route
 app.post("/signup", async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, securityQuestion, securityAnswer } = req.body;
 
     try {
         let userExists = await User.findOne({ email });
@@ -35,7 +37,7 @@ app.post("/signup", async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ firstName, lastName, email, password: hashedPassword });
+        const newUser = new User({ firstName, lastName, email, password: hashedPassword, securityQuestion, securityAnswer });
 
         await newUser.save();
         res.status(201).json({ message: "Signup successful! Please log in." });
@@ -63,6 +65,35 @@ app.post("/login", async (req, res) => {
         res.status(200).json({ message: "Login successful!" });
     } catch (error) {
         console.log("Login error:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+// Forgot Password Route
+app.post("/forgot-password", async (req, res) => {
+    const { email, securityQuestion, securityAnswer } = req.body;
+
+    try {
+        const user = await User.findOne({ email, securityQuestion, securityAnswer });
+        if (!user) {
+            return res.status(400).json({ error: "Incorrect security question or answer." });
+        }
+
+        res.status(200).json({ message: "Verification successful! Redirecting to change password page." });
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+// Change Password Route
+app.post("/change-password", async (req, res) => {
+    const { email, newPassword } = req.body;
+
+    try {
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await User.findOneAndUpdate({ email }, { password: hashedPassword });
+        res.status(200).json({ message: "Password updated successfully! Please log in." });
+    } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
