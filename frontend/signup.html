@@ -4,26 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+            
+        p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+p a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+    </style> -->
+
+
+
 </head>
 <body>
     <form id="signupForm">
-        <input type="text" id="firstName" placeholder="First Name" required>
-        <input type="text" id="lastName" placeholder="Last Name" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <input type="password" id="retypePassword" placeholder="Retype Password" required>
-        <select id="securityQuestion" required>
+        First Name: <input type="text" id="firstName" placeholder="First Name" required><br><br>
+        Last Name <input type="text" id="lastName" placeholder="Last Name" required><br><br>
+        Email: <input type="email" id="email" placeholder="Email" required><br><br>
+        Password: <input type="password" id="password" placeholder="Password" required><br><br>
+        Re-enter Password: <input type="password" id="retypePassword" placeholder="Retype Password" required><br><br>
+       Select security question: <select id="securityQuestion" required><br>
             <option value="" disabled selected>Select Security Question</option>
             <option value="What is your pet's name?">What is your pet's name?</option>
             <option value="What is first car color">What is your mother's maiden name?</option>
             <option value="What is your favorite color?">What is your favorite color?</option>
         </select>
-        <input type="text" id="securityAnswer" placeholder="Security Answer" required>
-        <button type="submit">Sign Up</button>
+        Please answer Security question: <input type="text" id="securityAnswer" placeholder="Security Answer" required><br><br>
+        <button type="submit">Sign Up</button><br>
+        <p>Have an account! <a href="login.html">Login here</a></p>
+
     </form>
 </div>
 
-<script src="signup.js"></script>
+<script src="signup.js"></script><br><br>
+
 </body>
 </html>

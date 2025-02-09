@@ -4,14 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" >
+    <style>
+        #logoutForm {
+                display: flex;
+                justify-content: space-between; /* Push elements to the sides */
+                align-items: center;
+                padding: 20px;
+            }
+
+            p {
+                margin: 0;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            #logout {
+                background-color: #dc3545; /* Red button */
+                color: white;
+                font-size: 14px;
+                padding: 8px 12px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            #logout:hover {
+                background-color: #c82333; /* Darker red on hover */
+            }
+    </style>
 
 </head>
 <body>
     <form id="logoutForm">
         <p>This is the dashboard page</p>
 
-        <button type="submit">Logout</button>
+        <button type="submit" id="logout">Logout</button>
     </form>
     
     <script src="dashboard.js"></script>
