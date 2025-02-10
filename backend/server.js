@@ -4,9 +4,11 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
 require("dotenv").config();
+const fetch = require("node-fetch");
+
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: ["http://localhost:3000","http://127.0.0.1:5500", "http://127.0.0.1:5501"] }));
 app.use(bodyParser.json());
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -97,5 +99,58 @@ app.post("/change-password", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+// Google Search API Route using SerpApi
+app.post("/search", async (req, res) => {
+    const { text, webOption, timeRange } = req.body;
+    const apiKey = process.env.SERPAPI_API_KEY;  
+    
+    if (!apiKey) {
+      return res.status(500).json({ error: "API key is missing" });
+    }
+  
+    if (!text) {
+      return res.status(400).json({ error: "Search text is required" });
+    }
+  
+    let query = `inurl:${webOption}`;
+    if (webOption) query += ` intext:${text}`;
+  
+    // Handle time range filters
+    const timeFilters = {
+      "24 hours": "qdr:d",
+      "3 days": "qdr:w3",
+      "1 week": "qdr:w",
+      "1 month": "qdr:m",
+    };
+  
+    let serpApiParams = {
+      api_key: apiKey,
+      engine: "google",
+      q: query,
+    };
+  
+    if (timeRange && timeFilters[timeRange]) {
+      serpApiParams.tbs = timeFilters[timeRange];
+    }
+  
+    try {
+      // Send the request to SerpApi
+      const response = await fetch(`https://serpapi.com/search?${new URLSearchParams(serpApiParams)}`);
+      const data = await response.json();
+  
+
+      //console.log("Full SerpApi Response:", data); // for data debugging
+      if (!data || !data.organic_results) {
+        return res.status(400).json({ error: "No results found1" });
+      }
+  
+      // Return the search results
+      res.status(200).json({ results: data.organic_results });
+    } catch (error) {
+      console.error("Search error:", error);
+      res.status(500).json({ error: "Failed to fetch search results" });
+    }
+  });
 
 app.listen(5500, () => console.log("Server running on port 5500"));
