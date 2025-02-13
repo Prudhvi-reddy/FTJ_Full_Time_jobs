@@ -4,20 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Sign Up</h2>
     <form id="signupForm">
-        <P> Enter Following detais</P>
-        First Name:<input type="text" id="firstName" placeholder="First Name" required minlength="3"><br>
-        Last Name:<input type="text" id="lastName" placeholder="Last Name" required><br>
-        Email: <input type="email" id="email" placeholder="Email" required><br>
-        Pasword: <input type="password" id="password" placeholder="Password" required><br>
-        Retype Password:<input type="password" id="retypePassword" placeholder="Retype Password" required><br><br>
-    </form>
-    <script src="signup.js"></script>
+        First Name: <input type="text" id="firstName" placeholder="First Name" required><br><br>
+        Last Name <input type="text" id="lastName" placeholder="Last Name" required><br><br>
+        Email: <input type="email" id="email" placeholder="Email" required><br><br>
+        Password: <input type="password" id="password" placeholder="Password" required><br><br>
+        Re-enter Password: <input type="password" id="retypePassword" placeholder="Retype Password" required><br><br>
+       Select security question: <select id="securityQuestion" required><br>
+            <option value="" disabled selected>Select Security Question</option>
+            <option value="What is your pet's name?">What is your pet's name?</option>
+            <option value="What is first car color">What is your mother's maiden name?</option>
+            <option value="What is your favorite color?">What is your favorite color?</option>
+        </select>
+        Please answer Security question: <input type="text" id="securityAnswer" placeholder="Security Answer" required><br><br>
+        <button type="submit">Sign Up</button><br>
+        <p>Have an account! <a href="login.html">Login here</a></p>
 
-    <p>Already have an account? <a href="login.html">Login here</a></p>
+    </form>
+</div>
+
+<script src="signup.js"></script><br><br>
+
 </body>
 </html>
