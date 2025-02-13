@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const fetch = require("node-fetch");
-
+const jwt = require("jsonwebtoken");
 
 const app = express();
 app.use(cors({ origin: ["http://localhost:3000","http://127.0.0.1:5500", "http://127.0.0.1:5501"] }));
@@ -48,28 +48,44 @@ app.post("/signup", async (req, res) => {
     }
 });
 
+
+const authenticateToken = (req, res, next) => {
+  const token = req.header("Authorization");
+  if (!token) return res.status(401).json({ error: "Access denied. No token provided." });
+
+  jwt.verify(token.split(" ")[1], process.env.JWT_SECRET, (err, user) => {
+      if (err) return res.status(403).json({ error: "Invalid or expired token." });
+      req.user = user;
+      next();
+  });
+};
+
 // Login Route
 app.post("/login", async (req, res) => {
-    console.log("Login route hit");
-    const { email, password } = req.body;
+  console.log("Login route hit");
+  const { email, password } = req.body;
 
-    try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ error: "Invalid email or password" });
-        }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ error: "Invalid email or password" });
-        }
-
-        res.status(200).json({ message: "Login successful!" });
-    } catch (error) {
-        console.log("Login error:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid email or password" });
     }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Invalid email or password" });
+    }
+
+    // Generate JWT Token
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log("JWT Secret:", process.env.JWT_SECRET); //display token for debugging
+    res.status(200).json({ message: "Login successful!", token });
+  } catch (error) {
+    console.log("Login error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
+
 
 // Forgot Password Route
 app.post("/forgot-password", async (req, res) => {
@@ -101,7 +117,7 @@ app.post("/change-password", async (req, res) => {
 });
 
 // Google Search API Route using SerpApi
-app.post("/search", async (req, res) => {
+app.post("/search", authenticateToken, async (req, res) => {
     const { text, webOption, timeRange } = req.body;
     const apiKey = process.env.SERPAPI_API_KEY;  
     

@@ -5,8 +5,14 @@ document.addEventListener("DOMContentLoaded", function () {
     searchForm.addEventListener("submit", async function (event) {
         event.preventDefault(); // Prevent default form submission
 
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("You must be logged in to search.");
+            window.location.href = "login.html"; // Redirect to login
+            return;
+        }
+
         const text = document.getElementById("textid").value.trim();
-        // text = text + " usa"
         const webOption = document.querySelector('input[name="webid"]:checked')?.value;
         const timeRange = document.getElementById("dateid").value;
 
@@ -22,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // Send token in header
                 },
                 body: JSON.stringify({ text, webOption, timeRange }),
             });
@@ -38,36 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
             resultsContainer.innerHTML = `<p class="error">An error occurred. Please try again.</p>`;
         }
     });
-
-    // function displayResults(htmlContent) {
-    //     resultsContainer.innerHTML = `<iframe srcdoc="${htmlContent}" width="100%" height="600px"></iframe>`;
-    // }
-
-    // function displayResults(results) {
-    //     if (!results || results.length === 0) {
-    //         document.getElementById("results").innerHTML = `<p>No results found.</p>`;
-    //         return;
-    //     }
-    
-    //     let outputHTML = "<h3>Search Results:</h3><ul>";
-    
-    //     results.forEach(result => {
-    //         outputHTML += `
-    //             <li style="margin-bottom: 15px; list-style: none; border-bottom: 1px solid #ddd; padding: 10px;">
-    //                 <a href="${result.link}" target="_blank" style="font-size: 18px; font-weight: bold; color: #1a0dab; text-decoration: none;">
-    //                     ${result.title}
-    //                 </a>
-    //                 <p style="color: #006621; font-size: 14px; margin: 5px 0;">${result.link}</p>
-    //                 <p style="color: #333;">${result.snippet || "No description available."}</p>
-    //             </li>
-    //         `;
-    //     });
-    
-    //     outputHTML += "</ul>";
-    
-    //     document.getElementById("results").innerHTML = outputHTML;
-    // }
-
 
     function displayResults(results) {
         if (!results || results.length === 0) {
@@ -125,3 +102,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
 });
+
