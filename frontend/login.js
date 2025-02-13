@@ -14,6 +14,11 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         let data = await response.json();
         if (response.ok) {
             alert(data.message);
+
+            // Store the token in localStorage
+            localStorage.setItem('token', data.token);
+            
+            // Redirect to dashboard
             window.location.href = "dashboard.html";
         } else {
             alert(data.error);
