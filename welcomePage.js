@@ -3,5 +3,5 @@ function redirectToSignup() {
 }
 
 function redirectToLogin() {
-    window.location.href = 'frontend/login.html';
+    window.location.href = '/FTJ_Full_Time_jobs/frontend/login.html';
 }
