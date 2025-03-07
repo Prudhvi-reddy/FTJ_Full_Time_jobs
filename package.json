@@ -1,4 +1,7 @@
 {
+  "name": "my-backend-project",  
+  "version": "1.0.0",  
+  "main": "server.js",  
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -9,5 +12,8 @@
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.0",
     "node-fetch": "^2.7.0"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
