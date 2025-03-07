@@ -4,4 +4,5 @@ function redirectToSignup() {
 
 function redirectToLogin() {
     window.location.href = window.location.pathname.replace(/\/$/, '') + '/frontend/login.html';
+    //
 }
